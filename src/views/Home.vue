@@ -1,12 +1,14 @@
 <template>
   <div class="home">
-    <div style="display:flex; flex-direction:column; justify-content:center">
+    <div style="margin:120px"></div>
+    <b-container>
       
-        <list-card :card="item" :idx="idx" v-for="(item,idx) in movieList" :key="item.id" style="margin:12px 100px;">
+        <list-card :card="item" :idx="idx" v-for="(item,idx) in movieList" :key="item.id" >
           
         </list-card>
         <infinite-loading @infinite="infiniteHandler" force-user-infinite-warpper=".el-table__body-wrapper" slot="append"></infinite-loading>
-    </div>
+    </b-container>
+   
   </div>
 </template>
 
