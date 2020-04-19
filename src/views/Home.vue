@@ -2,7 +2,9 @@
   <div class="home">
     <div style="display:flex; flex-direction:column; justify-content:center">
       
-        <list-card :card="item" v-for="item in movieList" :key="item.id" style="margin:12px 100px;"></list-card>
+        <list-card :card="item" :idx="idx" v-for="(item,idx) in movieList" :key="item.id" style="margin:12px 100px;">
+          
+        </list-card>
         <infinite-loading @infinite="infiniteHandler" force-user-infinite-warpper=".el-table__body-wrapper" slot="append"></infinite-loading>
     </div>
   </div>
@@ -24,33 +26,26 @@ export default {
     return{
         movieList: [],
         baseUrl: 'https://api.themoviedb.org/3',
-        apiKey: 'b1732a7e79da2bd0d0023abb9d6df1f8',
         loaded: true,
         page:1,
     }},
     created() {
-        // this.getData();
+ 
+ 
     },
     methods: {
-
-        // getData() {
-        //     this.$axios.get(this.baseUrl + '/discover/movie?api_key=' + this.apiKey + '&sort_by=popularity.desc').then(res => {
-        //         this.movieList = res.data.results;
-        //         this.loaded = false;
-        //     });
-        // },
         infiniteHandler($state) {
-          this.$axios.get(this.baseUrl + '/discover/movie?api_key=' + this.apiKey + '&sort_by=popularity.desc',{
+          this.$axios.get(this.baseUrl + '/movie/now_playing?api_key=' + process.env.VUE_APP_TOKEN  ,{
           params: {
             page :this.page,
           },
         })
             .then(res => {
-              setTimeout(() => { //스크롤 페이징을 띄우기 위한 시간 지연(1초)
+              setTimeout(() => { 
                 if (res.data.results.length) {
                   this.page+=1;
                   this.movieList= this.movieList.concat(res.data.results)
-                  $state.loaded(); //데이터 로딩
+                  $state.loaded(); 
                 } else {
                   $state.complete();
                 }
